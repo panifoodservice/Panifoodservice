@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - Pani Food Services</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f4f7f6; display: flex; justify-content: center; padding: 20px; margin: 0; }
+        .form-card { background: white; max-width: 450px; width: 100%; padding: 30px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
+        h2 { text-align: center; color: #333; margin-top: 0; }
+        
+        /* Google Button Style */
+        .google-btn {
+            display: flex; align-items: center; justify-content: center;
+            background: white; border: 1px solid #ddd; padding: 12px;
+            border-radius: 8px; text-decoration: none; color: #555;
+            font-weight: bold; transition: 0.3s; margin-bottom: 25px;
+        }
+        .google-btn:hover { background: #f9f9f9; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .google-btn img { width: 20px; margin-right: 10px; }
+
+        .divider { margin: 25px 0; border-bottom: 1px solid #eee; position: relative; }
+        .divider span { position: absolute; top: -10px; left: 40%; background: white; padding: 0 10px; color: #999; font-size: 13px; }
+
+        /* Input Fields Style */
+        .input-group { margin-bottom: 15px; position: relative; }
+        label { display: block; margin-bottom: 5px; font-weight: bold; font-size: 14px; color: #555; }
+        input, textarea { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; font-size: 14px; }
+        input:focus, textarea:focus { border-color: #ff9800; outline: none; box-shadow: 0 0 5px rgba(255, 152, 0, 0.2); }
+
+        /* Eye Icon Style */
+        .eye-icon { position: absolute; right: 15px; top: 38px; cursor: pointer; font-size: 18px; color: #777; }
+
+        .submit-btn { width: 100%; padding: 14px; background: #ff9800; color: white; border: none; border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer; margin-top: 10px; transition: 0.3s; }
+        .submit-btn:hover { background: #e68a00; transform: translateY(-1px); }
+
+        .footer-text { text-align: center; margin-top: 20px; font-size: 14px; color: #666; }
+        .footer-text a { color: #1a73e8; text-decoration: none; font-weight: bold; }
+        .footer-text a:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+
+<div class="form-card">
+    <h2>Pani Food Services</h2>
+    
+    <a href="https://accounts.google.com/signup" target="_blank" class="google-btn">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_Logo.svg" alt="Google">
+        Google se Sign Up karein
+    </a>
+
+    <div class="divider"><span>YA PHIR</span></div>
+
+    <form onsubmit="return handleSignup(event)">
+        <div class="input-group">
+            <label>Full Name:</label>
+            <input type="text" id="name" placeholder="Apna naam likhein" required>
+        </div>
+
+        <div class="input-group">
+            <label>Mobile Number:</label>
+            <input type="tel" placeholder="+91 00000 00000" required>
+        </div>
+
+        <div class="input-group">
+            <label>Address:</label>
+            <textarea id="address" rows="2" placeholder="Ghar ka pata..." required></textarea>
+        </div>
+
+        <div class="input-group">
+            <label>Create Password:</label>
+            <input type="password" id="pass" placeholder="Kam se kam 8 characters" minlength="8" required>
+            <span class="eye-icon" onclick="togglePass()">👁️</span>
+        </div>
+
+        <button type="submit" class="submit-btn">Account Banayein</button>
+    </form>
+
+    <div class="footer-text">
+        Pehle se account hai? <a href="#">Yahan Login karein</a>
+    </div>
+</div>
+
+<script>
+    function togglePass() {
+        const pInput = document.getElementById("pass");
+        const icon = document.querySelector(".eye-icon");
+        if (pInput.type === "password") {
+            pInput.type = "text";
+            icon.innerText = "🔒";
+        } else {
+            pInput.type = "password";
+            icon.innerText = "👁️";
+        }
+    }
+
+    function handleSignup(e) {
+        e.preventDefault();
+        const userName = document.getElementById("name").value;
+        alert("Shabash! " + userName + ", Aapka account safal raha. ✅");
+    }
+</script>
+
+</body>
+</html>
+
