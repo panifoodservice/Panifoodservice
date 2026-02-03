@@ -8,7 +8,7 @@
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f4f7f6; display: flex; justify-content: center; padding: 20px; margin: 0; }
         .form-card { background: white; max-width: 450px; width: 100%; padding: 30px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
         h2 { text-align: center; color: #333; margin-top: 0; }
-        
+
         /* Google Button Style */
         .google-btn {
             display: flex; align-items: center; justify-content: center;
@@ -33,6 +33,7 @@
 
         .submit-btn { width: 100%; padding: 14px; background: #ff9800; color: white; border: none; border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer; margin-top: 10px; transition: 0.3s; }
         .submit-btn:hover { background: #e68a00; transform: translateY(-1px); }
+        .submit-btn:disabled { background: #ccc; cursor: not-allowed; }
 
         .footer-text { text-align: center; margin-top: 20px; font-size: 14px; color: #666; }
         .footer-text a { color: #1a73e8; text-decoration: none; font-weight: bold; }
@@ -43,7 +44,7 @@
 
 <div class="form-card">
     <h2>Pani Food Services</h2>
-    
+
     <a href="https://accounts.google.com/signup" target="_blank" class="google-btn">
         <img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_Logo.svg" alt="Google">
         Google se Sign Up karein
@@ -51,7 +52,7 @@
 
     <div class="divider"><span>YA PHIR</span></div>
 
-    <form onsubmit="return handleSignup(event)">
+    <form id="signupForm" onsubmit="handleSignup(event)">
         <div class="input-group">
             <label>Full Name:</label>
             <input type="text" id="name" placeholder="Apna naam likhein" required>
@@ -59,7 +60,7 @@
 
         <div class="input-group">
             <label>Mobile Number:</label>
-            <input type="tel" placeholder="+91 00000 00000" required>
+            <input type="tel" id="mobile" placeholder="+91 00000 00000" required>
         </div>
 
         <div class="input-group">
@@ -73,7 +74,7 @@
             <span class="eye-icon" onclick="togglePass()">👁️</span>
         </div>
 
-        <button type="submit" class="submit-btn">Account Banayein</button>
+        <button type="submit" id="submitBtn" class="submit-btn">Account Banayein</button>
     </form>
 
     <div class="footer-text">
@@ -94,13 +95,55 @@
         }
     }
 
-    function handleSignup(e) {
+    async function handleSignup(e) {
         e.preventDefault();
-        const userName = document.getElementById("name").value;
-        alert("Shabash! " + userName + ", Aapka account safal raha. ✅");
+        
+        const submitBtn = document.getElementById("submitBtn");
+        submitBtn.disabled = true;
+        submitBtn.innerText = "Saving...";
+
+        const userData = {
+            name: document.getElementById("name").value,
+            mobile: document.getElementById("mobile").value,
+            address: document.getElementById("address").value,
+            password: document.getElementById("pass").value
+        };
+
+        const apiURL = 'https://sheetdb.io/api/v1/oyuw68otvjrat';
+
+        try {
+            const response = await fetch(apiURL, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ data: [userData] })
+            });
+
+            if (response.ok) {
+                alert("Shabash! " + userData.name + ", Aapka account safal raha. ✅");
+                
+                // Login status save karein
+                localStorage.setItem("isLoggedIn", "true");
+                localStorage.setItem("userName", userData.name);
+
+                // Form clear karein
+                document.getElementById("signupForm").reset();
+                
+                // Agar aapka home page hai to wahan bhej dega (niche wali line uncomment karein)
+                // window.location.href = "home.html";
+            } else {
+                alert("Opps! Kuch gadbad hui. Data save nahi ho paya.");
+            }
+        } catch (error) {
+            console.error("Error:", error);
+            alert("Internet connection check karein!");
+        } finally {
+            submitBtn.disabled = false;
+            submitBtn.innerText = "Account Banayein";
+        }
     }
 </script>
 
 </body>
 </html>
-
